@@ -383,7 +383,7 @@ function renderLineupField(){
   const st=plannerState;
   const assigned=slotAssignments();
   const pending=st.pendingPlace;
-  return `<div class="lineup-field-wrap planner-field-portrait">
+  return `<div class="lineup-field-wrap planner-field-portrait lineup-field-compact">
     ${fieldPitch()}
     <div class="lineup-field-overlay">
       ${assigned.map((slot,i)=>{

@@ -189,6 +189,28 @@ function renderMatchTabs(active, editable){
   </div>`;
 }
 
+function renderMatchMiniScore(match){
+  return `<div class="match-mini-score" data-mini-score>
+    <div class="match-mini-team">${flag(match.home, "flag-sm")}<span>${match.home}</span></div>
+    <div class="match-mini-center">
+      <div class="match-mini-stage">${match.matchNo ? `M${match.matchNo} · ` : ""}${match.stage}</div>
+      <div class="match-mini-line"><span data-mini-clock>00'</span><b data-mini-scoreline>0 x 0</b><span data-mini-phase>1º tempo</span></div>
+    </div>
+    <div class="match-mini-team justify-end"><span>${match.away}</span>${flag(match.away, "flag-sm")}</div>
+  </div>`;
+}
+
+function updateMatchMiniScore(homeGoals, awayGoals, minute, phase){
+  document.querySelectorAll("#matchSimulatorBox [data-mini-score]").forEach(node => {
+    const clock = node.querySelector("[data-mini-clock]");
+    const score = node.querySelector("[data-mini-scoreline]");
+    const phaseEl = node.querySelector("[data-mini-phase]");
+    if(clock) clock.textContent = `${String(minute).padStart(2, "0")}'`;
+    if(score) score.textContent = `${homeGoals} x ${awayGoals}`;
+    if(phaseEl) phaseEl.textContent = phase;
+  });
+}
+
 function matchEditableContext(match){
   const fav = getFavoriteTeam();
   const record = activeRecord();
@@ -203,7 +225,7 @@ function matchTacticBase(match){
 
 function renderMatchTacticPanel(match, editable){
   if(!editable){
-    return `<div class="match-tab-empty guided-card rounded-3xl p-5 text-center">
+    return `${renderMatchMiniScore(match)}<div class="match-tab-empty guided-card rounded-3xl p-5 text-center">
       <div class="mx-auto w-12 h-12 rounded-2xl bg-slate-100 grid place-items-center text-slate-400 mb-3">${ic('lock','w-5 h-5')}</div>
       <div class="font-display font-extrabold text-xl">Tática indisponível</div>
       <p class="mt-2 text-sm font-semibold text-slate-500">Ajustes ao vivo só aparecem no jogo atual da sua seleção.</p>
@@ -213,7 +235,7 @@ function renderMatchTacticPanel(match, editable){
   const formationIndex = Math.max(0, WC_LINEUPS.FORMATIONS.indexOf(tactic.formation));
   const mentality = tactic.mentality || "balanced";
   const mentalityLabel = mentality === "attack" ? "Ofensiva" : mentality === "defend" ? "Defensiva" : "Equilibrada";
-  return `<div class="match-live-tactic guided-card rounded-3xl p-4">
+  return `${renderMatchMiniScore(match)}<div class="match-live-tactic guided-card rounded-3xl p-4">
     <div class="flex items-center justify-between gap-3 mb-4">
       <div>
         <div class="text-[11px] uppercase tracking-widest font-extrabold text-slate-400">Ajuste durante o jogo</div>
@@ -278,7 +300,8 @@ function wireMatchTacticEvents(match){
 }
 
 function renderSubTabPlaceholder(editable){
-  return `<div class="match-tab-empty guided-card rounded-3xl p-5 text-center">
+  const match = appState.currentSimulatedMatch?.match;
+  return `${match ? renderMatchMiniScore(match) : ""}<div class="match-tab-empty guided-card rounded-3xl p-5 text-center">
     <div class="mx-auto w-12 h-12 rounded-2xl ${editable ? 'bg-usablue/10 text-usablue' : 'bg-slate-100 text-slate-400'} grid place-items-center mb-3">${ic(editable ? 'repeat-2' : 'lock','w-5 h-5')}</div>
     <div class="font-display font-extrabold text-xl">${editable ? 'Substituições' : 'Substituições indisponíveis'}</div>
     <p class="mt-2 text-sm font-semibold text-slate-500">${editable ? 'Abra esta aba durante a bola rolando para pausar e mexer no time.' : 'Só é possível mexer no jogo atual da sua seleção.'}</p>

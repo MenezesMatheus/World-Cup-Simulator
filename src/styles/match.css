@@ -145,9 +145,11 @@
 #tacticPlannerBox .planner-lineup-field{
   flex:1;
   min-height:0;
+  display:grid;
+  place-items:center;
 }
 #tacticPlannerBox .planner-lineup-field .lineup-field-wrap{
-  height:100%;
+  height:var(--lineup-field-height);
 }
 #tacticPlannerBox .planner-controls-panel{
   display:flex;
@@ -280,8 +282,10 @@
 
 /* ---------- campo do planejador tático ---------- */
 .lineup-field-wrap{
+  --lineup-field-height:clamp(190px,32dvh,280px);
   position:relative;
   width:100%;
+  height:var(--lineup-field-height);
   aspect-ratio:16/9.45;
   border-radius:22px;
   overflow:hidden;
@@ -420,17 +424,31 @@
 
 /* ====== campo EM PÉ com mini-cartinhas (planejador) ====== */
 #tacticPlannerBox .planner-lineup-field .lineup-field-wrap.planner-field-portrait{
-  height:100%;
+  height:var(--lineup-field-height);
   aspect-ratio:2/3;
   width:auto;
   max-width:100%;
   margin-inline:auto;
   background:#0a3161;
 }
+.planner-field-portrait.lineup-field-compact{
+  --lineup-field-height:clamp(174px,28dvh,230px);
+}
+.planner-field-portrait.lineup-field-standard{
+  --lineup-field-height:clamp(190px,30dvh,260px);
+}
+@media (min-width:641px){
+  .planner-field-portrait.lineup-field-compact{
+    --lineup-field-height:clamp(260px,42dvh,380px);
+  }
+  .planner-field-portrait.lineup-field-standard{
+    --lineup-field-height:clamp(300px,48dvh,430px);
+  }
+}
 @media (max-width:640px){
   #tacticPlannerBox .planner-lineup-field{flex:1 1 auto !important;}
   #tacticPlannerBox .planner-lineup-field .lineup-field-wrap.planner-field-portrait{
-    height:100% !important;
+    height:var(--lineup-field-height) !important;
     aspect-ratio:2/3;
     width:auto;
     max-width:100%;
@@ -467,9 +485,9 @@
 .field-card.is-out{opacity:.5;}
 .field-card.is-out .playercard{box-shadow:0 0 0 2px rgba(239,68,68,.82),0 6px 16px -8px rgba(0,0,0,.7);}
 .field-card.is-locked{cursor:default;}
-#liveSubMount .lineup-field-wrap.ls-field-portrait{height:min(54vh,420px) !important;aspect-ratio:2/3;width:auto;max-width:300px;margin-inline:auto;background:#0a3161;}
+#liveSubMount .lineup-field-wrap.ls-field-portrait{height:var(--lineup-field-height) !important;aspect-ratio:2/3;width:auto;max-width:100%;margin-inline:auto;background:#0a3161;}
 @media (max-width:640px){
-  #liveSubMount .lineup-field-wrap.ls-field-portrait{height:min(48vh,380px) !important;}
+  #liveSubMount .lineup-field-wrap.ls-field-portrait{height:var(--lineup-field-height) !important;}
 }
 
 /* ====== banco em painel deslizante (bottom-sheet dentro da caixa) ====== */
@@ -735,7 +753,7 @@
     min-height:0;
   }
   #tacticPlannerBox .planner-lineup-field .lineup-field-wrap{
-    height:clamp(126px,20dvh,152px);
+    height:var(--lineup-field-height);
     aspect-ratio:auto;
     border-radius:18px;
   }
@@ -1101,7 +1119,7 @@
   #matchSimulatorBox #liveSubMount .ls-planner-layout{height:auto;}
   #liveSubMount .ls-field-col{padding:8px !important;}
   #liveSubMount .ls-carousel-col .p-4{padding:10px !important;}
-  #liveSubMount .lineup-field-wrap{height:190px !important;}
+  #liveSubMount .lineup-field-wrap{height:var(--lineup-field-height) !important;}
   #liveSubMount .lineup-player-carousel{padding:8px;}
   #liveSubMount .lineup-player-carousel .space-y-2{max-height:none;overflow-y:visible;}
   /* sem scroll interno no mobile → some o aviso "mais jogadores abaixo" */
@@ -1109,10 +1127,10 @@
   #liveSubMount .ls-player-card{padding:6px 8px;border-radius:12px;}
   #liveSubMount .ls-pos-badge{width:30px;height:30px;border-radius:9px;font-size:9px;}
   /* planejador tático */
-  .lineup-field-wrap{height:220px !important;}
+  .lineup-field-wrap{height:var(--lineup-field-height) !important;}
   .lineup-player-carousel{gap:6px;}
   #tacticPlannerBox .planner-lineup-field .lineup-field-wrap{
-    height:clamp(126px,20dvh,152px) !important;
+    height:var(--lineup-field-height) !important;
   }
   #tacticPlannerBox .planner-player-section .lineup-player-carousel{
     height:100%;

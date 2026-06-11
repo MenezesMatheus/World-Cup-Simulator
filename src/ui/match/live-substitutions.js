@@ -260,7 +260,7 @@ function buildLiveSubField(){
     </div>`;
   }).join("");
 
-  return `<div class="lineup-field-wrap planner-field-portrait ls-field-portrait">
+  return `<div class="lineup-field-wrap planner-field-portrait ls-field-portrait lineup-field-standard">
     ${fieldPitch()}
     <div class="lineup-field-overlay">${slotDivs}</div>
     <div class="ls-formation-badge">${formation}</div>
